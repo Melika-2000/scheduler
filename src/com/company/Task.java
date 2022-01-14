@@ -19,6 +19,7 @@ public class Task {
     public void setState(String state) {
         this.state = state;
     }
+
     public String getTypeName() {
         return type.getName();
     }
