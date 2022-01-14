@@ -16,7 +16,6 @@ public class Main {
         taskTypes.add(Y);
         taskTypes.add(X);
 
-
         int aSize = scan.nextInt();
         int bSize = scan.nextInt();
         int cSize = scan.nextInt();

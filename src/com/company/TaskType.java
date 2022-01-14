@@ -26,4 +26,3 @@ public class TaskType {
         return Priority;
     }
 }
-
