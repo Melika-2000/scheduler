@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Main {
@@ -8,29 +9,31 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        TaskType Z = new TaskType("Z",1,"A","C");
-        TaskType Y = new TaskType("Y",2,"C","B");
-        TaskType X = new TaskType("X",3,"A","B");
-        ArrayList<TaskType> taskTypes = new ArrayList<>();
-        taskTypes.add(Z);
-        taskTypes.add(Y);
-        taskTypes.add(X);
+        Hashtable<String,Integer> taskTypes = new Hashtable<>();
+        taskTypes.put("Z",1);
+        taskTypes.put("Y",2);
+        taskTypes.put("X",3);
 
-        int aSize = scan.nextInt();
-        int bSize = scan.nextInt();
-        int cSize = scan.nextInt();
         int n = scan.nextInt();
 
         ArrayList <Task> tasks = new ArrayList<>();
         for(int i=0; i<n; i++){
-            String taskName = scan.next();
-            String taskTypeName = scan.next();
-            int taskDuration = scan.nextInt();
-            for(TaskType t : taskTypes){
-                if(t.getName() == taskTypeName)
-                    tasks.add(new Task(taskName,t,taskDuration));
-            }
+            String tName = scan.next();
+            String tType = scan.next();
+            int tDuration = scan.nextInt();
+            tasks.add(new Task(tName,taskTypes.get(tType), tDuration));
         }
 
+        Function func = new Function(tasks);
+        func.roundRobin();
+
+/*
+5
+a Y 10
+b Z 6
+c Y 2
+d Z 5
+e X 1
+*/
     }
 }

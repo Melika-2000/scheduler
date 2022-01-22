@@ -2,17 +2,17 @@ package com.company;
 
 import java.util.ArrayList;
 
-public class Task {
+public class Task implements Comparable<Task> {
 
     private String name;
-    private TaskType type;
     private int duration;
+    private int typePriority;
     private String state;
     private int cpuTime = 0;
 
-    public Task(String name, TaskType type,int duration){
+    public Task(String name,int typePriority,int duration){
         this.name = name;
-        this.type = type;
+        this.typePriority = typePriority;
         this.duration = duration;
     }
 
@@ -20,16 +20,9 @@ public class Task {
         this.state = state;
     }
 
-    public String getTypeName() {
-        return type.getName();
-    }
-
-    public ArrayList<String> getTypeResources() {
-        return type.getResources();
-    }
 
     public int getTypePriority(){
-        return type.getPriority();
+        return typePriority;
     }
 
     public String getName() {
@@ -44,10 +37,21 @@ public class Task {
         return duration;
     }
 
+    public int getCpuTime() {
+        return cpuTime;
+    }
+
     public String getState() {
         return state;
     }
 
-
+    @Override
+    public int compareTo(Task t) {
+        if(this.duration < t.getDuration())
+            return -1;
+        else if(this.duration > t.getDuration())
+            return 1;
+        return 0;
+    }
 
 }
