@@ -5,7 +5,7 @@ public class Task implements Comparable<Task> {
     private String name;
     private int duration;
     private int typePriority;
-    private String state = "notAdded";
+    private String state;
     private int cpuTime = 0;
     private int arrivalTime;
     private int waitingTime = 0;
@@ -51,6 +51,7 @@ public class Task implements Comparable<Task> {
     public int getWaitingTime() {
         return waitingTime;
     }
+
     public void waitingTimeAdder(){
         waitingTime++;
     }

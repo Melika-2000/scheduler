@@ -26,14 +26,14 @@ public class Main {
         }
 
         Function func = new Function(tasks);
-        func.HRRN();
+        func.firstComeFirstServed();
 /*
 5
 a Y 10 1
-b Z 6 0
-c Y 2 2
-d Z 5 5
-e X 1 8
+b Z 6 1
+c Y 2 1
+d Z 5 2
+e Z 1 3
 */
     }
 }
