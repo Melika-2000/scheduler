@@ -27,6 +27,7 @@ public class Function {
 
     public void shortestJobFirst() {
         PriorityQueue<Task> tasksQ = new PriorityQueue();
+        Task.setPriorityType(1);
         int index = 0;
         while(index < tasks.size()){
             if(tasks.get(index).getArrivalTime() == 0){
@@ -35,35 +36,45 @@ public class Function {
             }
             else break;
         }
-        if(index == 0) {tasksQ.add(tasks.get(0)); index = 1;}
         int time = 0;
+        if(index == 0) {tasksQ.add(tasks.get(0)); index = 1; time = tasks.get(0).getArrivalTime();}
         while (!tasksQ.isEmpty()) {
             System.out.println("\n---------");
             Task task = tasksQ.poll();
             while (task.getDuration() != task.getCpuTime()) {
                 System.out.println("Time:" + time + "  Running: " + task.getName());
-                while(index < tasks.size() && tasks.get(index).getArrivalTime() <= time ) { tasksQ.add(tasks.get(index)); index++; }
+                while(index < tasks.size() && tasks.get(index).getArrivalTime() <= time ) { tasksQ.add(tasks.get(index)); index++;}
                 printQ(tasksQ);
                 task.cpuTimeAdder();
                 time++;
             }
-            while(index < tasks.size() && (tasksQ.size() == 0 || tasks.get(index).getArrivalTime() <= time)) { tasksQ.add(tasks.get(index)); time = tasks.get(index).getArrivalTime(); index++; }
+            while(index < tasks.size() && (tasksQ.size() == 0 || tasks.get(index).getArrivalTime() <= time)) { tasksQ.add(tasks.get(index)); time = tasks.get(index).getArrivalTime(); index++;}
         }
     }
 
     public void firstComeFirstServed() {
         Queue<Task> tasksQ = new LinkedList();
-        tasksQ.addAll(tasks);
+        int index = 0;
+        while(index < tasks.size()){
+            if(tasks.get(index).getArrivalTime() == 0){
+                tasksQ.add(tasks.get(index));
+                index++;
+            }
+            else break;
+        }
         int time = 0;
+        if(index == 0) {tasksQ.add(tasks.get(0)); index = 1; time = tasks.get(0).getArrivalTime();}
         while (!tasksQ.isEmpty()) {
             System.out.println("\n---------");
             Task task = tasksQ.poll();
             while (task.getDuration() != task.getCpuTime()) {
                 System.out.println("Time:" + time + "  Running: " + task.getName());
+                while(index < tasks.size() && tasks.get(index).getArrivalTime() <= time ) { tasksQ.add(tasks.get(index)); index++;}
                 printQ(tasksQ);
                 task.cpuTimeAdder();
                 time++;
             }
+            while(index < tasks.size() && (tasksQ.size() == 0 || tasks.get(index).getArrivalTime() <= time)) { tasksQ.add(tasks.get(index)); time = tasks.get(index).getArrivalTime(); index++;}
         }
     }
 
@@ -78,8 +89,8 @@ public class Function {
             }
             else break;
         }
-        if(index == 0) {tasksQ.add(tasks.get(0)); index = 1;}
         int time = 0;
+        if(index == 0) {tasksQ.add(tasks.get(0)); index = 1;}
         while (!tasksQ.isEmpty()) {
             System.out.println("\n---------");
             Task task = tasksQ.poll();
@@ -99,28 +110,29 @@ public class Function {
     }
 
     public void HRRN() {
-        int time = 0;
-        while (tasks.size() > 0) {
-            System.out.println("\n---------");
-            float maxRR = (float)0.0;
-            Task selectedTask = null;
-            int priority = 0;
-            for (Task task : tasks){
-                if (task.getArrivalTime() <= time){
-                    if (((float)task.getArrivalTime() + task.getDuration()) / task.getDuration() > maxRR || ((float)task.getArrivalTime() + task.getDuration()) / task.getDuration() == maxRR && task.getTypePriority() < priority) {
-                        priority = task.getTypePriority();
-                        selectedTask = task;
-                        maxRR = ((float)task.getArrivalTime() + task.getDuration()) / task.getDuration();
-                    }
-                }
+        PriorityQueue<Task> tasksQ = new PriorityQueue();
+        Task.setPriorityType(2);
+        int index = 0;
+        while(index < tasks.size()){
+            if(tasks.get(index).getArrivalTime() == 0){
+                tasksQ.add(tasks.get(index));
+                index++;
             }
-            if(selectedTask == null){time++; continue;}
-            tasks.remove(selectedTask);
-            while (selectedTask.getDuration() != selectedTask.getCpuTime()) {
-                System.out.println("Time:" + time + "  Running: " + selectedTask.getName());
-                selectedTask.cpuTimeAdder();
+            else break;
+        }
+        int time = 0;
+        if(index == 0) {tasksQ.add(tasks.get(0)); index = 1; time = tasks.get(0).getArrivalTime();}
+        while (!tasksQ.isEmpty()) {
+            System.out.println("\n---------");
+            Task task = tasksQ.poll();
+            while (task.getDuration() != task.getCpuTime()) {
+                System.out.println("Time:" + time + "  Running: " + task.getName());
+                while(index < tasks.size() && tasks.get(index).getArrivalTime() <= time ) { tasksQ.add(tasks.get(index)); index++;}
+                printQ(tasksQ);
+                task.cpuTimeAdder();
                 time++;
             }
+            while(index < tasks.size() && (tasksQ.size() == 0 || tasks.get(index).getArrivalTime() <= time)) { tasksQ.add(tasks.get(index)); time = tasks.get(index).getArrivalTime(); index++;}
         }
     }
 
