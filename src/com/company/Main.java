@@ -26,7 +26,7 @@ public class Main {
         }
 
         Function func = new Function(tasks);
-        func.HRRN();
+        func.roundRobin();
 /*
 5
 a Y 10 1

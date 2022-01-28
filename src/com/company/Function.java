@@ -7,25 +7,47 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Function {
-    ArrayList<Task> tasks;
+    ArrayList<Task> tasks = new ArrayList<>();
 
     public Function(ArrayList<Task> tasks) {
-        this.tasks = tasks;
+        int minArrivalTime = tasks.get(0).getArrivalTime();
+        Task selectedTask = tasks.get(0);
+        while(tasks.size() != 0) {
+            for (Task task : tasks) {
+                if(task.getArrivalTime() < minArrivalTime){
+                    selectedTask = task;
+                    minArrivalTime = task.getArrivalTime();
+                }
+            }
+            this.tasks.add(selectedTask);
+            tasks.remove(selectedTask);
+            minArrivalTime = 1000;
+        }
     }
 
     public void shortestJobFirst() {
         PriorityQueue<Task> tasksQ = new PriorityQueue();
-        tasksQ.addAll(tasks);
+        int index = 0;
+        while(index < tasks.size()){
+            if(tasks.get(index).getArrivalTime() == 0){
+                tasksQ.add(tasks.get(index));
+                index++;
+            }
+            else break;
+        }
+        if(index == 0) {tasksQ.add(tasks.get(0)); index = 1;}
         int time = 0;
         while (!tasksQ.isEmpty()) {
             System.out.println("\n---------");
             Task task = tasksQ.poll();
             while (task.getDuration() != task.getCpuTime()) {
                 System.out.println("Time:" + time + "  Running: " + task.getName());
+                while(index < tasks.size() && tasks.get(index).getArrivalTime() <= time ) { tasksQ.add(tasks.get(index)); index++; }
                 printQ(tasksQ);
                 task.cpuTimeAdder();
                 time++;
             }
+            while(index < tasks.size() && (tasksQ.size() == 0 || tasks.get(index).getArrivalTime() <= time)) { tasksQ.add(tasks.get(index)); time = tasks.get(index).getArrivalTime(); index++; }
         }
     }
 
@@ -47,14 +69,23 @@ public class Function {
 
     public void roundRobin() {
         Queue<Task> tasksQ = new LinkedList();
-        tasksQ.addAll(tasks);
-        int q = 4;
+        int q = 3;
+        int index = 0;
+        while(index < tasks.size()){
+            if(tasks.get(index).getArrivalTime() == 0){
+                tasksQ.add(tasks.get(index));
+                index++;
+            }
+            else break;
+        }
+        if(index == 0) {tasksQ.add(tasks.get(0)); index = 1;}
         int time = 0;
         while (!tasksQ.isEmpty()) {
             System.out.println("\n---------");
             Task task = tasksQ.poll();
             while (task.getDuration() != task.getCpuTime()) {
                 System.out.println("Time:" + time + "  Running: " + task.getName());
+                while(index < tasks.size() && tasks.get(index).getArrivalTime() <= time ) { tasksQ.add(tasks.get(index)); index++; }
                 printQ(tasksQ);
                 task.cpuTimeAdder();
                 time++;
@@ -63,6 +94,7 @@ public class Function {
                     break;
                 }
             }
+            while(index < tasks.size() && (tasksQ.size() == 0 || tasks.get(index).getArrivalTime() <= time)) { tasksQ.add(tasks.get(index)); time = tasks.get(index).getArrivalTime(); index++; }
         }
     }
 
