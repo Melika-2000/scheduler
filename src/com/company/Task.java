@@ -1,7 +1,5 @@
 package com.company;
 
-import java.util.ArrayList;
-
 public class Task implements Comparable<Task> {
 
     private String name;
@@ -10,7 +8,8 @@ public class Task implements Comparable<Task> {
     private String state = "notAdded";
     private int cpuTime = 0;
     private int arrivalTime;
-    private static int priorityType;
+    private int waitingTime = 0;
+    private static int functionType;
 
     public Task(String name,int typePriority,int duration, int arrivalTime){
         this.name = name;
@@ -19,8 +18,8 @@ public class Task implements Comparable<Task> {
         this.arrivalTime = arrivalTime;
     }
 
-    public static void setPriorityType(int priorityType) {
-        Task.priorityType = priorityType;
+    public static void setFunctionType(int functionType) {
+        Task.functionType = functionType;
     }
 
     public void setState(String state) {
@@ -49,23 +48,30 @@ public class Task implements Comparable<Task> {
         return cpuTime;
     }
 
+    public int getWaitingTime() {
+        return waitingTime;
+    }
+    public void waitingTimeAdder(){
+        waitingTime++;
+    }
+
     public String getState() {
         return state;
     }
 
     @Override
     public int compareTo(Task t) {
-        if(priorityType == 1) {
+        if(functionType == 1) {
             if (this.duration < t.getDuration())
                 return -1;
             else if (this.duration > t.getDuration())
                 return 1;
-        }else if (priorityType == 2){
-            if (((float)this.getArrivalTime() + this.getDuration()) / this.getDuration() > ((float)t.getArrivalTime() + t.getDuration()) / t.getDuration())
+        }else if (functionType == 2){
+            if (((float)this.getWaitingTime() + this.getDuration()) / this.getDuration() > ((float)t.getWaitingTime() + t.getDuration()) / t.getDuration())
                 return -1;
-            else if (((float)this.getArrivalTime() + this.getDuration()) / this.getDuration() < ((float)t.getArrivalTime() + t.getDuration()) / t.getDuration())
+            else if (((float)this.getWaitingTime() + this.getDuration()) / this.getDuration() < ((float)t.getWaitingTime() + t.getDuration()) / t.getDuration())
                 return 1;
-            else if (((float)this.getArrivalTime() + this.getDuration()) / this.getDuration() == ((float)t.getArrivalTime() + t.getDuration()) / t.getDuration()){
+            else if (((float)this.getWaitingTime() + this.getDuration()) / this.getDuration() == ((float)t.getWaitingTime() + t.getDuration()) / t.getDuration()){
                 if (this.getTypePriority() < t.getTypePriority())
                     return -1;
                 else if (this.getTypePriority() > t.getTypePriority())
@@ -74,5 +80,4 @@ public class Task implements Comparable<Task> {
         }
         return 0;
     }
-
 }
