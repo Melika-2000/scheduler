@@ -71,14 +71,23 @@ public class Function {
             System.out.println("\n---------");
             double maxRR = 0.0;
             Task selectedTask = tasks.get(0);
+            int priority = tasks.get(0).getTypePriority();
             for (Task task : tasks) {
-                if (((float)time + task.getDuration()) / task.getDuration() > maxRR) {
+                if (task.getTypePriority() < priority) {
+                    selectedTask = task;
+                    priority = task.getTypePriority();
+                }
+            }
+            for (Task task : tasks) {
+                if (((float)time + task.getDuration()) / task.getDuration() > maxRR || ((float)time + task.getDuration()) / task.getDuration() == maxRR && task.getTypePriority() < priority) {
+                    priority = task.getTypePriority();
                     selectedTask = task;
                     maxRR = (float) (time + task.getDuration()) / task.getDuration();
                 }
             }
             tasks.remove(selectedTask);
             while (selectedTask.getDuration() != selectedTask.getCpuTime()) {
+                System.out.println(selectedTask.getCpuTime());
                 System.out.println("Time:" + time + "  Running: " + selectedTask.getName());
                 selectedTask.cpuTimeAdder();
                 time++;
