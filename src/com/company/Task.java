@@ -9,17 +9,22 @@ public class Task implements Comparable<Task> {
     private int typePriority;
     private String state;
     private int cpuTime = 0;
+    private int arrivalTime;
 
-    public Task(String name,int typePriority,int duration){
+    public Task(String name,int typePriority,int duration, int arrivalTime){
         this.name = name;
         this.typePriority = typePriority;
         this.duration = duration;
+        this.arrivalTime = arrivalTime;
     }
 
     public void setState(String state) {
         this.state = state;
     }
 
+    public int getArrivalTime() {
+        return arrivalTime;
+    }
 
     public int getTypePriority() { return typePriority; }
 

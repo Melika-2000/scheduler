@@ -21,18 +21,19 @@ public class Main {
             String tName = scan.next();
             String tType = scan.next();
             int tDuration = scan.nextInt();
-            tasks.add(new Task(tName,taskTypes.get(tType), tDuration));
+            int tArrivalTime = scan.nextInt();
+            tasks.add(new Task(tName,taskTypes.get(tType), tDuration, tArrivalTime));
         }
 
         Function func = new Function(tasks);
         func.HRRN();
 /*
 5
-a Y 10
-b Z 6
-c Y 2
-d Z 5
-e X 1
+a Y 10 1
+b Z 6 0
+c Y 2 2
+d Z 5 5
+e X 1 8
 */
     }
 }

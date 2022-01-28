@@ -1,5 +1,6 @@
 package com.company;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -69,25 +70,21 @@ public class Function {
         int time = 0;
         while (tasks.size() > 0) {
             System.out.println("\n---------");
-            double maxRR = 0.0;
-            Task selectedTask = tasks.get(0);
-            int priority = tasks.get(0).getTypePriority();
-            for (Task task : tasks) {
-                if (task.getTypePriority() < priority) {
-                    selectedTask = task;
-                    priority = task.getTypePriority();
+            float maxRR = (float)0.0;
+            Task selectedTask = null;
+            int priority = 0;
+            for (Task task : tasks){
+                if (task.getArrivalTime() <= time){
+                    if (((float)task.getArrivalTime() + task.getDuration()) / task.getDuration() > maxRR || ((float)task.getArrivalTime() + task.getDuration()) / task.getDuration() == maxRR && task.getTypePriority() < priority) {
+                        priority = task.getTypePriority();
+                        selectedTask = task;
+                        maxRR = ((float)task.getArrivalTime() + task.getDuration()) / task.getDuration();
+                    }
                 }
             }
-            for (Task task : tasks) {
-                if (((float)time + task.getDuration()) / task.getDuration() > maxRR || ((float)time + task.getDuration()) / task.getDuration() == maxRR && task.getTypePriority() < priority) {
-                    priority = task.getTypePriority();
-                    selectedTask = task;
-                    maxRR = (float) (time + task.getDuration()) / task.getDuration();
-                }
-            }
+            if(selectedTask == null){time++; continue;}
             tasks.remove(selectedTask);
             while (selectedTask.getDuration() != selectedTask.getCpuTime()) {
-                System.out.println(selectedTask.getCpuTime());
                 System.out.println("Time:" + time + "  Running: " + selectedTask.getName());
                 selectedTask.cpuTimeAdder();
                 time++;
